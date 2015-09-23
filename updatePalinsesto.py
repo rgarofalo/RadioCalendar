@@ -7,12 +7,13 @@ import datetime
 
 class updatePalinsesto():
   
-  def updateSchedule(schedule): # This function will update the schedule
+  def updateSchedule(self,schedule): # This function will update the schedule
         
         days = ['lu','ma','me','gi','ve','sa','do'] 
         dec = JSONDecoder(encoding='ascii') 
         rawdata = urlopen('http://www.radiocicletta.it:80/programmi.json').read() # We retrieve the json in str type
 
+        #verifico se il palinsesto è stato cambiato
         if os.path.isfile('programmi.txt'): 
           progfile= open("programmi.txt","r")
           old_program= progfile.read()
@@ -31,15 +32,13 @@ class updatePalinsesto():
           listaProgs = filter(lambda x: x['stato'] == '1',dec.decode(rawdata)['programmi']) 
           
           # Finally insert in the dictionary schedule the list of start time of the programs
-          minList=minimalList(listaProgs);
+          minList=self.minimalList(listaProgs);
           for today in days:
              schedule[today] = filter(lambda t:t['title']!='Musica No Stop',filter(lambda x: x['start'][0] == today, minList)) 
           
-          #print schedule
-
           return True
 
-  def minimalList(listaProgs):
+  def minimalList(self,listaProgs):
 
     minList = []
     for prog in listaProgs:
@@ -49,7 +48,7 @@ class updatePalinsesto():
     return minList
 
 
-  def build_calendar_events(schedule): 
+  def build_calendar_events(self,schedule): 
     event_list = []
     weekdays = ['lu','ma','me','gi','ve','sa','do']
 
@@ -94,37 +93,6 @@ class updatePalinsesto():
                   ],
             'description': ""
           }
-
-        
-    
-        
-          #event = {
-          #          'summary': 'Google I/O 2015',
-          #            'location': '800 Howard St., San Francisco, CA 94103',
-          #           'description': 'A chance to hear more about Google\'s developer products.',
-          #            'start': {
-          #              'dateTime': '2015-05-28T09:00:00-07:00',
-          #              'timeZone': 'America/Los_Angeles',
-          #            },
-          #            'end': {
-          #              'dateTime': '2015-05-28T17:00:00-07:00',
-          #              'timeZone': 'America/Los_Angeles',
-          #            },
-          #            'recurrence': [
-          #                 'RRULE:FREQ=WEEKLY;UNTIL=20160630T235959Z',
-          #            ],
-          #            'attendees': [
-          #              {'email': 'lpage@example.com'},
-          #              {'email': 'sbrin@example.com'},
-          #            ],
-          #            'reminders': {
-          #              'useDefault': False,
-          #              'overrides': [
-          #                {'method': 'email', 'minutes': 24 * 60},
-          #                {'method': 'popup', 'minutes': 10},
-          #              ],
-          #            },
-          #          }
 
 
         event_list.append(add_event)

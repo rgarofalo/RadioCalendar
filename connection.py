@@ -16,11 +16,11 @@ SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'RadioCalendar'
 
-palinsestoId ='xxxxxx'
+palinsestoId ='xxxxxxxx@group.calendar.google.com'
 
 class connection():
    
-    def get_credentials():
+    def get_credentials(self):
 
     	home_dir = os.path.expanduser('~')
     	credential_dir = os.path.join(home_dir, '.credentials')
@@ -43,7 +43,7 @@ class connection():
             print 'Storing credentials to ' + credential_path
         return credentials
 
-    def insert_calendar_events(calendar_events, service):
+    def insert_calendar_events(self,calendar_events, service):
         count = 0
         for event in calendar_events:
             print event
@@ -78,7 +78,7 @@ class connection():
               print 'HTTP Status code: %d' % e.resp.status
               print 'HTTP Reason: %s' % e.resp.reason
 
-    def clearCalendar(service):
+    def clearCalendar(self,service):
 
       eventsResult = service.events().list(calendarId=palinsestoId).execute()
 

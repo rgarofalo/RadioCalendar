@@ -1,4 +1,3 @@
-
 from connection import *
 from updatePalinsesto import *
 
@@ -9,18 +8,19 @@ def main():
     schedule = {'lu':[],'ma':[],'me':[],'gi':[],'ve':[],'sa':[],'do':[]}
 
     pal = updatePalinsesto()
+    con = connection()
 
-    if pal.updateSchedule(schedule):
+    if pal.updateSchedule(schedule): # qui 
       lis = pal.build_calendar_events(schedule)
 
-      
-      credentials = connection.get_credentials()
+      #apro la connessione con google api
+      credentials = con.get_credentials()
       http = credentials.authorize(httplib2.Http())
       service = discovery.build('calendar', 'v3', http=http)
       
       
-      connection.clearCalendar(service)#cancello tutti gli eventi nel calendario
-      connection.insert_calendar_events(lis, service)
+      con.clearCalendar(service)#cancello tutti gli eventi nel calendario
+      con.insert_calendar_events(lis, service)#aggiorno il calendario
 
     else :
       print 'Aggionameto non necessario'

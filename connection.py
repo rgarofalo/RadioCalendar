@@ -16,9 +16,11 @@ SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'RadioCalendar'
 
-palinsestoId ='xxxxxxxx@group.calendar.google.com'
 
 class connection():
+
+    def __init__(self):
+        self.IdCalendar=""
    
     def get_credentials(self):
 
@@ -67,7 +69,7 @@ class connection():
               #   # Get the next request object by passing the previous request object to
               #   # the list_next method.
               #   request = service.events().list_next(request, response)
-                  created_event = service.events().insert(calendarId=palinsestoId, body=event).execute()
+                  created_event = service.events().insert(calendarId=self.IdCalendar, body=event).execute()
                   print created_event['id']
 
             except ValueError:
@@ -78,12 +80,12 @@ class connection():
               print 'HTTP Status code: %d' % e.resp.status
               print 'HTTP Reason: %s' % e.resp.reason
 
-    def clearCalendar(self,service):
+    def clearCalendar(self,service, idcalendar):
 
-      eventsResult = service.events().list(calendarId=palinsestoId).execute()
+      eventsResult = service.events().list(calendarId=self.IdCalendar).execute()
 
       for event in eventsResult['items']:
-        service.events().delete(calendarId=palinsestoId, eventId=event['id']).execute()
+        service.events().delete(calendarId=self.IdCalendar, eventId=event['id']).execute()
 
       return
 

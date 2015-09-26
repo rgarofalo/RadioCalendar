@@ -6,14 +6,17 @@ from urllib2 import urlopen
 import datetime
 
 class updatePalinsesto():
+
+  def __init__(self):
+      self.schedule = {'lu':[],'ma':[],'me':[],'gi':[],'ve':[],'sa':[],'do':[]}
+
   
-  def updateSchedule(self,schedule): # This function will update the schedule
+  def updateSchedule(self): # This function will update the schedule
         
         days = ['lu','ma','me','gi','ve','sa','do'] 
         dec = JSONDecoder(encoding='ascii') 
         rawdata = urlopen('http://www.radiocicletta.it:80/programmi.json').read() # We retrieve the json in str type
 
-        #verifico se il palinsesto è stato cambiato
         if os.path.isfile('programmi.txt'): 
           progfile= open("programmi.txt","r")
           old_program= progfile.read()
@@ -34,9 +37,9 @@ class updatePalinsesto():
           # Finally insert in the dictionary schedule the list of start time of the programs
           minList=self.minimalList(listaProgs);
           for today in days:
-             schedule[today] = filter(lambda t:t['title']!='Musica No Stop',filter(lambda x: x['start'][0] == today, minList)) 
-          
-          return True
+             self.schedule[today] = filter(lambda t:t['title']!='Musica No Stop',filter(lambda x: x['start'][0] == today, minList))
+        
+        return True
 
   def minimalList(self,listaProgs):
 
@@ -48,7 +51,7 @@ class updatePalinsesto():
     return minList
 
 
-  def build_calendar_events(self,schedule): 
+  def build_calendar_events(self): 
     event_list = []
     weekdays = ['lu','ma','me','gi','ve','sa','do']
 
@@ -57,7 +60,7 @@ class updatePalinsesto():
     weekday=now.weekday()
 
     for day in weekdays:
-      for prog in schedule[day]:
+      for prog in self.schedule[day]:
 
         addDay=7 - weekday + weekdays.index(day)
         data= now + datetime.timedelta(days=addDay)

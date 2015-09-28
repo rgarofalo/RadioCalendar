@@ -7,11 +7,9 @@ import os
 
 def main():
 
-  palinsestoId ='xxxxxxxx@group.calendar.google.com'
+  palinsestoId ='xxxx@group.calendar.google.com'
   OnAirId='xxxxx@group.calendar.google.com'
-  pathReg= "xxxxxx"
-
-  
+  pathReg= "xxxxx"
 
   pal = updatePalinsesto()
 
@@ -28,7 +26,7 @@ def main():
     
    
     
-    con.clearCalendar(service)#cancello tutti gli eventi nel calendario
+    con.clearCalendar(service,palinsestoId)#cancello tutti gli eventi nel calendario
     con.insert_calendar_events(lis, service)#aggiorno il calendario
     
     print'Palinsesto: Aggionameto'

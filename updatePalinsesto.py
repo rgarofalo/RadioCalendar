@@ -37,7 +37,7 @@ class updatePalinsesto():
           # Finally insert in the dictionary schedule the list of start time of the programs
           minList=self.minimalList(listaProgs);
           for today in days:
-             self.schedule[today] = filter(lambda t:t['title']!='Musica No Stop',filter(lambda x: x['start'][0] == today, minList))
+             self.schedule[today] = filter(lambda r:r['title']!='Rotazione Musicale' ,filter(lambda t:t['title']!='Musica No Stop' ,filter(lambda x: x['start'][0] == today, minList)))
         
         return True
 
